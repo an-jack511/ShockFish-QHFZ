@@ -3,32 +3,37 @@ DNN + MCTS
 by: Z.
 """
 
-from __future__ import print_function
+from utils import *
 
-import os
-import re
-import time
-import json
-import scipy
-import random
-import shutil
-import numpy as np
-import pandas as pd
-import open3d as o3d
-from PIL import Image
 
-from torch import Tensor
-from pathlib import Path
-from matplotlib import pyplot as plt
-from typing import Dict, List, Tuple, Union
+class ResBlock(nn.Module):
+    def __init__(self,
+                 in_channels: int,
+                 out_channels: int,
+                 kernel_size: Tuple[int, int, int] = (3, 3, 3)):
+        super(ResBlock, self).__init__()
+        self.conv1 = nn.Conv3d(in_channels, out_channels, kernel_size)
+        self.conv2 = nn.Conv3d(out_channels, out_channels, kernel_size)
 
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.nn.functional as func
-from torch.utils.data import Dataset, DataLoader
+        self.bn1 = nn.BatchNorm3d(out_channels)
+        self.bn2 = nn.BatchNorm3d(out_channels)
+        self.relu = nn.ReLU(inplace=True)
 
-import torchvision.models as models
-import torchvision.transforms as tf
+        self.skip_connection = nn.Identity()
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    def forward(self, x: Tensor):
+        residual = self.skip_connection(x)
+        x = self.relu(self.bn1(self.conv1(x)))
+        x = self.bn2(self.conv2(x))
+        x += residual
+        return self.relu(x)
+
+
+class DNN(nn.Module):
+    def __init__(self):
+        super(DNN, self).__init__()
+        conv1 = nn.Conv3d(1, 256, (3, 3, 3))
+        bn = nn.BatchNorm3d(256)
+        relu = nn.ReLU()
+
+
