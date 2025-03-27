@@ -56,40 +56,19 @@ class Piece(Enum):
 
 
 class Board:
-    def __init__(self, FEN: str="") -> None:
-        if FEN != "":
-            self.board = [[Piece.SPACE for _ in range(8)] for _ in range(8)]
-            FEN = FEN.split('/')
-            for i in range(8):
-                j = 0
-                for c in FEN[i]:
-                    if c.isnumeric():
-                        j += int(c)
-                    else:
-                        self.board[i][j] = Piece.from_FEN_notation_letter(c)
-                        j += 1
+    def __init__(self, FEN: str="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR") -> None:
+        self.board = [[Piece.SPACE for _ in range(8)] for _ in range(8)]
+        FEN = FEN.split('/')
+        for i in range(8):
+            j = 0
+            for c in FEN[i]:
+                if c.isnumeric():
+                    j += int(c)
+                else:
+                    self.board[i][j] = Piece.from_FEN_notation_letter(c)
+                    j += 1
         self.turn = 1
         self.player = 1
-        self.board = [[Piece.SPACE for _ in range(8)] for _ in range(8)]
-        for i in range(8):
-            self.board[1][i] = Piece.WHITE_PAWN
-            self.board[6][i] = Piece.BLACK_PAWN
-        self.board[0][0] = Piece.WHITE_ROOK
-        self.board[0][7] = Piece.WHITE_ROOK
-        self.board[7][0] = Piece.BLACK_ROOK
-        self.board[7][7] = Piece.BLACK_ROOK
-        self.board[0][1] = Piece.WHITE_KNIGHT
-        self.board[0][6] = Piece.WHITE_KNIGHT
-        self.board[7][1] = Piece.BLACK_KNIGHT
-        self.board[7][6] = Piece.BLACK_KNIGHT
-        self.board[0][2] = Piece.WHITE_BISHOP
-        self.board[0][5] = Piece.WHITE_BISHOP
-        self.board[7][2] = Piece.BLACK_BISHOP
-        self.board[7][5] = Piece.BLACK_BISHOP
-        self.board[0][3] = Piece.WHITE_QUEEN
-        self.board[0][4] = Piece.WHITE_KING
-        self.board[7][3] = Piece.BLACK_QUEEN
-        self.board[7][4] = Piece.BLACK_KING
 
     # def __init__
     def __str__(self):
@@ -118,5 +97,5 @@ class Board:
 if __name__ == '__main__':
     b = Board()
     print(b.FEN)
-    a = Board("rnbqkbnr/pppppppp/8/PPPPPPPP/8/8/PPPPPPPP/RNBQKBNR")
+    a = Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
     print(a.FEN)
