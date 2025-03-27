@@ -1,6 +1,8 @@
+import copy
+import math
+import numpy as np
 from enum import Enum
 from typing import Any, List, Tuple, Dict
-
 
 class Piece(Enum):
     WHITE_KING = 1
@@ -56,7 +58,10 @@ class Piece(Enum):
 
 
 class Board:
-    def __init__(self, FEN: str="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR") -> None:
+    def __init__(self,
+                 FEN: str="rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
+                 r: int = 1,
+                 p: 1 | -1 = 1) -> None:
         self.board = [[Piece.SPACE for _ in range(8)] for _ in range(8)]
         FEN = FEN.split('/')
         for i in range(8):
@@ -67,10 +72,10 @@ class Board:
                 else:
                     self.board[i][j] = Piece.from_FEN_notation_letter(c)
                     j += 1
-        self.turn = 1
-        self.player = 1
+        self.round = r
+        self.player = p
+        self.history = []
 
-    # def __init__
     def __str__(self):
         return '\n'.join([' '.join([str(j.value) for j in i]) for i in self.board])
 
@@ -92,6 +97,36 @@ class Board:
                 fen_row += str(empty_count)
             fen_rows.append(fen_row)
         return '/'.join(fen_rows)
+
+    def can_move(self,
+                 fr: Tuple[int, int],
+                 to: Tuple[int, int]) -> bool:
+        x1, y1 = fr
+        x2, y2 = to
+        piece = self.board[x1][y1]
+        des = self.board[x2][y2]
+        if piece.value*self.player <= 0 or des.value*self.player > 0:
+            return False
+        raise NotImplementedError
+
+    def _move(self,
+              fr: Tuple[int, int],
+              to: Tuple[int, int]) -> None:
+        x1, y1 = fr
+        x2, y2 = to
+        self.history.append(copy.deepcopy(self.board))
+        self.board[x2][y2] = self.board[x1][y1]
+        self.board[x1][y1] = Piece.SPACE
+
+    def move(self, mov: str) -> None:
+        raise NotImplementedError
+        self._move(...)
+        self._move(...)
+        self.round += 1
+        self.player *= -1
+
+    def available_moves(self) -> List[Tuple[int, int]]:
+        raise NotImplementedError
 
 
 if __name__ == '__main__':
