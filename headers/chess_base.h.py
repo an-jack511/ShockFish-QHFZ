@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Any, List, Tuple, Dict
 
 
-class piece(Enum):
+class Piece(Enum):
     WHITE_KING = 1
     WHITE_QUEEN = 2
     WHITE_BISHOP = 3
@@ -21,44 +21,44 @@ class piece(Enum):
 
     def FEN_notation_letter(self) -> str:
         return {
-            piece.WHITE_KING: 'K',
-            piece.WHITE_QUEEN: 'Q',
-            piece.WHITE_BISHOP: 'B',
-            piece.WHITE_KNIGHT: 'N',
-            piece.WHITE_ROOK: 'R',
-            piece.WHITE_PAWN: 'P',
-            piece.BLACK_KING: 'k',
-            piece.BLACK_QUEEN: 'q',
-            piece.BLACK_BISHOP: 'b',
-            piece.BLACK_KNIGHT: 'n',
-            piece.BLACK_ROOK: 'r',
-            piece.BLACK_PAWN: 'p',
-            piece.SPACE: ' '
+            Piece.WHITE_KING: 'K',
+            Piece.WHITE_QUEEN: 'Q',
+            Piece.WHITE_BISHOP: 'B',
+            Piece.WHITE_KNIGHT: 'N',
+            Piece.WHITE_ROOK: 'R',
+            Piece.WHITE_PAWN: 'P',
+            Piece.BLACK_KING: 'k',
+            Piece.BLACK_QUEEN: 'q',
+            Piece.BLACK_BISHOP: 'b',
+            Piece.BLACK_KNIGHT: 'n',
+            Piece.BLACK_ROOK: 'r',
+            Piece.BLACK_PAWN: 'p',
+            Piece.SPACE: ' '
         }[self]
 
     @staticmethod
     def from_FEN_notation_letter(letter: str) -> Any:
         return {
-            'K': piece.WHITE_KING,
-            'Q': piece.WHITE_QUEEN,
-            'B': piece.WHITE_BISHOP,
-            'N': piece.WHITE_KNIGHT,
-            'R': piece.WHITE_ROOK,
-            'P': piece.WHITE_PAWN,
-            'k': piece.BLACK_KING,
-            'q': piece.BLACK_QUEEN,
-            'b': piece.BLACK_BISHOP,
-            'n': piece.BLACK_KNIGHT,
-            'r': piece.BLACK_ROOK,
-            'p': piece.BLACK_PAWN,
-            ' ': piece.SPACE
+            'K': Piece.WHITE_KING,
+            'Q': Piece.WHITE_QUEEN,
+            'B': Piece.WHITE_BISHOP,
+            'N': Piece.WHITE_KNIGHT,
+            'R': Piece.WHITE_ROOK,
+            'P': Piece.WHITE_PAWN,
+            'k': Piece.BLACK_KING,
+            'q': Piece.BLACK_QUEEN,
+            'b': Piece.BLACK_BISHOP,
+            'n': Piece.BLACK_KNIGHT,
+            'r': Piece.BLACK_ROOK,
+            'p': Piece.BLACK_PAWN,
+            ' ': Piece.SPACE
         }[letter]
 
 
-class board:
-    def __init__(self, FEN: str = "") -> None:
+class Board:
+    def __init__(self, FEN: str="") -> None:
         if FEN != "":
-            self.board = [[piece.SPACE for _ in range(8)] for _ in range(8)]
+            self.board = [[Piece.SPACE for _ in range(8)] for _ in range(8)]
             FEN = FEN.split('/')
             for i in range(8):
                 j = 0
@@ -66,30 +66,30 @@ class board:
                     if c.isnumeric():
                         j += int(c)
                     else:
-                        self.board[i][j] = piece.from_FEN_notation_letter(c)
+                        self.board[i][j] = Piece.from_FEN_notation_letter(c)
                         j += 1
         self.turn = 1
         self.player = 1
-        self.board = [[piece.SPACE for _ in range(8)] for _ in range(8)]
+        self.board = [[Piece.SPACE for _ in range(8)] for _ in range(8)]
         for i in range(8):
-            self.board[1][i] = piece.WHITE_PAWN
-            self.board[6][i] = piece.BLACK_PAWN
-        self.board[0][0] = piece.WHITE_ROOK
-        self.board[0][7] = piece.WHITE_ROOK
-        self.board[7][0] = piece.BLACK_ROOK
-        self.board[7][7] = piece.BLACK_ROOK
-        self.board[0][1] = piece.WHITE_KNIGHT
-        self.board[0][6] = piece.WHITE_KNIGHT
-        self.board[7][1] = piece.BLACK_KNIGHT
-        self.board[7][6] = piece.BLACK_KNIGHT
-        self.board[0][2] = piece.WHITE_BISHOP
-        self.board[0][5] = piece.WHITE_BISHOP
-        self.board[7][2] = piece.BLACK_BISHOP
-        self.board[7][5] = piece.BLACK_BISHOP
-        self.board[0][3] = piece.WHITE_QUEEN
-        self.board[0][4] = piece.WHITE_KING
-        self.board[7][3] = piece.BLACK_QUEEN
-        self.board[7][4] = piece.BLACK_KING
+            self.board[1][i] = Piece.WHITE_PAWN
+            self.board[6][i] = Piece.BLACK_PAWN
+        self.board[0][0] = Piece.WHITE_ROOK
+        self.board[0][7] = Piece.WHITE_ROOK
+        self.board[7][0] = Piece.BLACK_ROOK
+        self.board[7][7] = Piece.BLACK_ROOK
+        self.board[0][1] = Piece.WHITE_KNIGHT
+        self.board[0][6] = Piece.WHITE_KNIGHT
+        self.board[7][1] = Piece.BLACK_KNIGHT
+        self.board[7][6] = Piece.BLACK_KNIGHT
+        self.board[0][2] = Piece.WHITE_BISHOP
+        self.board[0][5] = Piece.WHITE_BISHOP
+        self.board[7][2] = Piece.BLACK_BISHOP
+        self.board[7][5] = Piece.BLACK_BISHOP
+        self.board[0][3] = Piece.WHITE_QUEEN
+        self.board[0][4] = Piece.WHITE_KING
+        self.board[7][3] = Piece.BLACK_QUEEN
+        self.board[7][4] = Piece.BLACK_KING
 
     # def __init__
     def __str__(self):
@@ -102,7 +102,7 @@ class board:
             empty_count = 0
             fen_row = ''
             for square in row:
-                if square == piece.SPACE:
+                if square == Piece.SPACE:
                     empty_count += 1
                 else:
                     if empty_count > 0:
@@ -116,7 +116,7 @@ class board:
 
 
 if __name__ == '__main__':
-    b = board()
+    b = Board()
     print(b.FEN)
-    a = board("rnbqkbnr/pppppppp/8/PPPPPPPP/8/8/PPPPPPPP/RNBQKBNR")
+    a = Board("rnbqkbnr/pppppppp/8/PPPPPPPP/8/8/PPPPPPPP/RNBQKBNR")
     print(a.FEN)
