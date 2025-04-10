@@ -1,3 +1,5 @@
+import copy
+
 class TicTacToe:
     def __init__(self):
         self.cnt_row = 3
@@ -7,7 +9,7 @@ class TicTacToe:
     
     def clone(self):
         new_state = TicTacToe()
-        new_state.board = [row.copy() for row in self.board]
+        new_state.board = copy.deepcopy(self.board)
         new_state.las_move = self.las_move
         return new_state
 
@@ -17,11 +19,11 @@ class TicTacToe:
                 print("O" if self.board[i][j] == 1 else "X" if self.board[i][j] == -1 else "*", end = ' ')
             print()
     
-    def Get_moves(self, state):
+    def Get_moves(self):
         moves = []
         for i in range(self.cnt_row):
             for j in range(self.cnt_col):
-                if state.board[i][j] == 0:
+                if self.board[i][j] == 0:
                     moves.append((i, j))
         return moves
 
@@ -61,6 +63,6 @@ class TicTacToe:
         if(self.Judge_win(-player, state)):
             return -1
         if(self.Judge_tie(state)):
-            return 0
+            return 0.5
         return -2
 

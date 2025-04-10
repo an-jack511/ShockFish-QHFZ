@@ -19,7 +19,8 @@ class Game(TicTacToe):
 
     def Computer(self, player, rt):
         print("Computer's turn")
-        self.Move(player, MonteCarlo(Node(), time = rt).search(self, player))
+        computer_mov = MonteCarlo(Node(player = player), time = rt).search(self.clone(), player)
+        self.Move(player, computer_mov)
         self.print_board()
 
     def Play(self, player, rt):
