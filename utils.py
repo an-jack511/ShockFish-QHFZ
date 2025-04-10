@@ -32,4 +32,6 @@ from torch.utils.data import Dataset, DataLoader
 import torchvision.models as models
 import torchvision.transforms as tf
 
+import chess
+
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
