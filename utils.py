@@ -8,8 +8,9 @@ from __future__ import print_function
 import os
 import re
 import copy
-import time
 import json
+import math
+import time
 import scipy
 import random
 import shutil
@@ -21,7 +22,7 @@ from PIL import Image
 from torch import Tensor
 from pathlib import Path
 from matplotlib import pyplot as plt
-from typing import Dict, List, Tuple, Union
+from typing import Any, Dict, List, Tuple, Union
 
 import torch
 import torch.nn as nn
@@ -33,5 +34,6 @@ import torchvision.models as models
 import torchvision.transforms as tf
 
 import chess
+from enum import Enum
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

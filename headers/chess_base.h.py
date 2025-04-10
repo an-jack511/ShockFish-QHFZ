@@ -1,8 +1,10 @@
-import copy
-import math
-import numpy as np
-from enum import Enum
-from typing import Any, List, Tuple, Dict
+"""
+chess base
+by LingcW, Z.
+"""
+
+from utils import *
+
 
 class Piece(Enum):
     WHITE_KING = 1
