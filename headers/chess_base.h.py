@@ -103,6 +103,8 @@ class Board:
                  to: Tuple[int, int]) -> bool:
         x1, y1 = fr
         x2, y2 = to
+        if not (0 <= x1 < 8 and 0 <= y1 < 8 and 0 <= x2 < 8 and 0 <= y2 < 8):
+            return False
         piece = self.board[x1][y1]
         des = self.board[x2][y2]
         if piece.value*self.player <= 0 or des.value*self.player > 0:
