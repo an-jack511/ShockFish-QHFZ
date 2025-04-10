@@ -1,5 +1,5 @@
 """
-chess stuff
+chess stuff using python-chess
 by Z.
 """
 
