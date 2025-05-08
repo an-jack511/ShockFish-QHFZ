@@ -59,10 +59,10 @@ class TicTacToe:
     
     def Endgame_status(self, player, state):
         if(self.Judge_win(player, state)):
-            return 1
+            return 10
         if(self.Judge_win(-player, state)):
-            return -1
+            return -10
         if(self.Judge_tie(state)):
             return 0.5
-        return -2
+        return 0
 

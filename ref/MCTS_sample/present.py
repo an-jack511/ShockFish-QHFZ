@@ -1,6 +1,7 @@
 from TicTacToe import TicTacToe
 from MonteCarloTreeSearch import Node, MonteCarlo
 
+
 class Game(TicTacToe):
 
     def __init__(self):
@@ -19,7 +20,7 @@ class Game(TicTacToe):
 
     def Computer(self, player, rt):
         print("Computer's turn")
-        computer_mov = MonteCarlo(Node(player = player), time = rt).search(self.clone(), player)
+        computer_mov = MonteCarlo(Node(player = player), n_iter= rt).search(self.clone(), player)
         self.Move(player, computer_mov)
         self.print_board()
 
