@@ -7,45 +7,45 @@ class Game(TicTacToe):
     def __init__(self):
         super().__init__()
                       
-    def Human(self, player):
+    def human(self, p):
         print("Your turn")
         row, col = input("Enter row and column: ").split()
         row, col = int(row), int(col)  # 0-based
         if row < 3 and col < 3 and self.board[row][col] == 0:
-            self.Move(player, (row, col))
+            self.move(p, (row, col))
             self.print_board()
         else:
             print("Invalid move")
-            return self.Human(player)
+            return self.human(p)
 
-    def Computer(self, player, rt):
+    def computer(self, p, it):
         print("Computer's turn")
-        computer_mov = MonteCarlo(Node(player = player), n_iter= rt).search(self.clone(), player)
-        self.Move(player, computer_mov)
+        computer_mov = MonteCarlo(Node(player=p), n_iter=it).search(self.clone(), p)
+        self.move(p, computer_mov)
         self.print_board()
 
-    def Play(self, player, rt):
-        if player == 1:
-            self.Human(player)
+    def play(self, p, it):
+        if p == 1:
+            self.human(p)
         else:
-            self.Computer(player, rt)
+            self.computer(p, it)
         # self.print_board()
-        if self.Judge_win(player, self.board):
-            print("Player", player, "wins")
+        if self.judge_win(p, self.board):
+            print("Player", p, "wins")
             return True
-        if self.Judge_tie(self.board):
+        if self.judge_tie(self.board):
             print("Draw")
             return True
         return False
 
-    def Round(self, player, rt):
-        while not self.Play(player, rt):
-            player = -player
+    def round(self, p, it):
+        while not self.play(p, it):
+            p = -p
             
 
 if __name__ == '__main__':
     game = Game()
     player = int(input("Choose to be (1/-1) move: "))
-    rt = int(input("Choose the time for the computer to think: "))
-    game.Round(player, rt)
+    n_iter = int(input("Choose the time for the computer to think: "))
+    game.round(player, n_iter)
     # game.print_board()
