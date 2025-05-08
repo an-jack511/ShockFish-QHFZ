@@ -1,79 +1,45 @@
 """
 chess stuff using python-chess
 by Z.
-[!] currently useless
 """
+import copy
+
+import chess
 
 from headers.utils import *
 
 
-class Piece(Enum):
-    WHITE_KING = 1
-    WHITE_QUEEN = 2
-    WHITE_BISHOP = 3
-    WHITE_KNIGHT = 4
-    WHITE_ROOK = 5
-    WHITE_PAWN = 6
-
-    BLACK_KING = -1
-    BLACK_QUEEN = -2
-    BLACK_BISHOP = -3
-    BLACK_KNIGHT = -4
-    BLACK_ROOK = -5
-    BLACK_PAWN = -6
-
-    SPACE = 0
-
-    def get_fen(self) -> str:
-        return {
-            Piece.WHITE_KING: 'K',
-            Piece.WHITE_QUEEN: 'Q',
-            Piece.WHITE_BISHOP: 'B',
-            Piece.WHITE_KNIGHT: 'N',
-            Piece.WHITE_ROOK: 'R',
-            Piece.WHITE_PAWN: 'P',
-            Piece.BLACK_KING: 'k',
-            Piece.BLACK_QUEEN: 'q',
-            Piece.BLACK_BISHOP: 'b',
-            Piece.BLACK_KNIGHT: 'n',
-            Piece.BLACK_ROOK: 'r',
-            Piece.BLACK_PAWN: 'p',
-            Piece.SPACE: '.'
-        }[self]
-
-    @staticmethod
-    def from_fen(letter: str) -> Any:
-        return {
-            'K': Piece.WHITE_KING,
-            'Q': Piece.WHITE_QUEEN,
-            'B': Piece.WHITE_BISHOP,
-            'N': Piece.WHITE_KNIGHT,
-            'R': Piece.WHITE_ROOK,
-            'P': Piece.WHITE_PAWN,
-            'k': Piece.BLACK_KING,
-            'q': Piece.BLACK_QUEEN,
-            'b': Piece.BLACK_BISHOP,
-            'n': Piece.BLACK_KNIGHT,
-            'r': Piece.BLACK_ROOK,
-            'p': Piece.BLACK_PAWN,
-            '.': Piece.SPACE
-        }[letter]
-
-
 class Board:
     def __init__(self,
-                 player: int,
-                 fen: None | str = None):
+                 player: 1 | -1 = None,
+                 fen: None | str = chess.STARTING_FEN):
         self.board = chess.Board(fen)
         self.player = player
 
-    def legal_move(self) -> List:
-        for move in self.board.legal_moves:
-            pass
-        raise NotImplementedError
+    def legal_moves(self) -> List:
+        return list(self.board.legal_moves)
 
-    def is_legal(self, move: str | chess.Move) -> bool:
-        return self.board.is_legal(move)
+    def move(self, move: chess.Move):
+        self.board.push(move)
+
+    def repli_move(self, move: chess.Move):
+        new = copy.deepcopy(self)
+        new.board.push(move)
+        return new
+
+    @staticmethod
+    def endgame_status(board: chess.Board) -> int | None:
+        res = board.outcome()
+        if res is not None:
+            res = {
+                True: 1,    # white
+                False: -1,  # black
+                None: 0     # draw
+            }[res.winner]
+        return res
+
+    def __str__(self):
+        return str(self.board)
 
 
 def main():
