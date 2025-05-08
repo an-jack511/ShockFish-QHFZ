@@ -64,5 +64,5 @@ class TicTacToe:
         if self.judge_win(-player, state):
             return -10
         if self.judge_tie(state):
-            return 0.5
-        return 0
+            return 0
+        return None

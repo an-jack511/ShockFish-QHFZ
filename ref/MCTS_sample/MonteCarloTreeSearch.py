@@ -26,7 +26,7 @@ class Node(TicTacToe):
             # print("Move: ", mov) # debug
 
     def select(self, state):
-        if self.endgame_status(self.player, state.board):
+        if self.endgame_status(self.player, state.board) is not None:
             return self
         cur_child, cur_res = None, -np.inf
         for mov in state.legal_moves():
@@ -49,8 +49,9 @@ class Node(TicTacToe):
 
     def default_policy(self, state, player):
         cur = copy.deepcopy(state)
-        if self.endgame_status(player, cur.board):
-            return -self.endgame_status(player, cur.board)
+        res = self.endgame_status(player, cur.board)
+        if res is not None:
+            return -res
         moves = cur.legal_moves()
         while moves:
             mov_idx = random.randint(0, len(moves) - 1)
@@ -58,8 +59,9 @@ class Node(TicTacToe):
             cur.move(player, mov)
             moves.remove(mov)
             player = -player
-            if self.endgame_status(player, cur.board):
-                return -self.endgame_status(player, cur.board)
+            res = self.endgame_status(player, cur.board)
+            if res is not None:
+                return -res
         return 0
 
     def backprop(self, result):
@@ -75,7 +77,7 @@ class MonteCarlo(Node):
     
     def search(self, state, player):
         for i in range(self.n_iter):
-            if self.root.endgame_status(player, state.board):
+            if self.root.endgame_status(player, state.board) is not None:
                 break
             cur = self.root.select(copy.deepcopy(state))
             reward = cur.default_policy(copy.deepcopy(state), player)
