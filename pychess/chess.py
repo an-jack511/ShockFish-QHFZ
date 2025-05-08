@@ -1,6 +1,7 @@
 """
 chess stuff using python-chess
 by Z.
+[!] currently useless
 """
 
 from headers.utils import *
