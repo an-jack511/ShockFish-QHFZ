@@ -3,7 +3,7 @@ chess stuff using python-chess
 by Z.
 """
 
-from utils import *
+from headers.utils import *
 
 
 class Piece(Enum):

@@ -3,7 +3,7 @@ chess base
 by LingcW, Z.
 """
 
-from utils import *
+from headers.utils import *
 
 
 class Piece(Enum):

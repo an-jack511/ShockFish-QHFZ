@@ -3,7 +3,7 @@ DNN + MCTS
 by: Z.
 """
 
-from utils import *
+from headers.utils import *
 
 
 class ResNetBlock(nn.Module):
