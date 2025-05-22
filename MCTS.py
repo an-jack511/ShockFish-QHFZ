@@ -1,5 +1,11 @@
+import chess
+
 from headers.utils import *
 from pychess.chess import Board
+from model.model import DNN
+
+
+net = DNN()
 
 
 class Node(Board):
@@ -18,11 +24,17 @@ class Node(Board):
         self.P = p  # prior probability (analyze by neural network)
         self.c_puct = c_puct
 
+    @staticmethod
+    def state_to_tensor(state)-> Tensor:
+        fen = state.board.fen()
+        print(fen)
+        raise NotImplementedError
+
     def expand(self, state):
         for mov in state.legal_moves():
             if mov in self.moves.values():
                 continue
-            self.children.append(Node(player=-self.player))
+            self.children.append(Node(player=-self.player, p=net(self.state_to_tensor(state))[0].item()))
             self.moves[self.children[-1]] = mov
             self.children[-1].parent = self
             self.children[-1].player = -self.player
